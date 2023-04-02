@@ -1,8 +1,8 @@
 {
-  "name": "Action script injection demo",
+  "name": "Scrapping Extension",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Demonstrates how to inject a script into a page using the declarativeContent API.",
+  "description": "Obtain data from the page and send it to the background script",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Action script injection demo"

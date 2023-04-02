@@ -1,9 +1,10 @@
 const button = document.querySelectorAll('[class^="pagerBlock"]');
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const page = urlParams.get("page");
+console.log(page);
 
 button[0].addEventListener("click", () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const page = urlParams.get("page");
   window.location.search = `?page=${parseInt(page) + 1}`;
 });
 

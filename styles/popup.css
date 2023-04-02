@@ -3,6 +3,12 @@ body {
   color: white;
   padding: 12px;
   outline: 1px solid white;
+  width: 400px;
+}
+
+.button-container{
+  display: flex;
+  justify-content: center;
 }
 
 button {
@@ -12,7 +18,7 @@ button {
   border-radius: 16px;
   outline: none;
   margin-top: 18px;
-  cursor : pointer;
+  cursor: pointer;
 }
 
 button:hover {
@@ -32,8 +38,24 @@ button:hover {
   margin-top: 18px;
 }
 
-.result:hover{
+.result:hover {
   background-color: cornflowerblue;
   color: white;
   border: 2px solid white;
+}
+
+
+.job-metrics-table {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+.job-metrics-table th, .job-metrics-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.job-metrics-table th {
+  text-align: center;
 }
