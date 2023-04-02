@@ -1,0 +1,20 @@
+{
+  "name": "Action script injection demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Demonstrates how to inject a script into a page using the declarativeContent API.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Action script injection demo"
+  },
+  "background": {
+    "service_worker": "./scripts/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.occ.com.mx/*"],
+      "js": ["./scripts/content.js"]
+    }
+  ],
+  "permissions": ["activeTab", "scripting", "storage", "tabs","webNavigation"]
+}

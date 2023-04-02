@@ -1,0 +1,39 @@
+body {
+  background-color: #292929;
+  color: white;
+  padding: 12px;
+  outline: 1px solid white;
+}
+
+button {
+  background-color: cornflowerblue;
+  color: white;
+  padding: 12px;
+  border-radius: 16px;
+  outline: none;
+  margin-top: 18px;
+  cursor : pointer;
+}
+
+button:hover {
+  background-color: #292929;
+  color: cornflowerblue;
+  border: 2px solid cornflowerblue;
+}
+
+.result {
+  display: flex;
+  color: beige;
+  justify-content: center;
+  font-style: italic;
+  padding: 2px;
+  border: 1px solid cornflowerblue;
+  border-radius: 12px;
+  margin-top: 18px;
+}
+
+.result:hover{
+  background-color: cornflowerblue;
+  color: white;
+  border: 2px solid white;
+}
