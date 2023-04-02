@@ -16,5 +16,8 @@
       "js": ["./scripts/content.js"]
     }
   ],
-  "permissions": ["activeTab", "scripting", "storage", "tabs","webNavigation"]
+  "permissions": ["activeTab", "scripting", "storage", "tabs","webNavigation"],
+  "icons": {
+  "16": "icons/icon.png"
+}
 }
