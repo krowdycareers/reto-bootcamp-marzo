@@ -5,6 +5,7 @@ const page = urlParams.get("page");
 console.log(page);
 
 button[0].addEventListener("click", () => {
+  if (!page) return window.location.search = `?page=2`
   window.location.search = `?page=${parseInt(page) + 1}`;
 });
 
