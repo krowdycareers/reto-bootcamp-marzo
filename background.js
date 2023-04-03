@@ -1,38 +1,55 @@
 const saveObjectInLocalStorage = async function (obj) {
-    return new Promise((resolve, reject) => {
-        try {
-            chrome.storage.local.set(obj, function () {
-                resolve();
-            });
-        } catch (ex) {
-            reject(ex);
-        }
-    });
+	return new Promise((resolve, reject) => {
+		try {
+			chrome.storage.local.set(obj, function () {
+				resolve();
+			});
+		} catch (ex) {
+			reject(ex);
+		}
+	});
 };
 
-const gatObjectInLocalStorage = async function (obj) {
-    return new Promise((resolve, reject) => {
-        try {
-            chrome.storage.local.get(key, function (value) {
-                resolve(value);
-            });
-        } catch (ex) {
-            reject(ex);
-        }
-    });
+const getObjectFromLocalStorage = async function (key) {
+	return new Promise((resolve, reject) => {
+		try {
+			chrome.storage.local.get([key], function (value) {
+				resolve(value[key]);
+			});
+		} catch (ex) {
+			reject(ex);
+		}
+	});
 };
 
 chrome.runtime.onConnect.addListener(function (port) {
-    port.onMessage.addListener(async function ({ message }) {
-        if (message === "startscrap") {
-            const status = "start";
-            await saveObjectInLocalStorage(status);
-        }
-        if (message === "finish") {
-            //const status = await getObjectInLocalStorage("status");
-
-            //if (status == "start")
-            port.postMessage({ message: "nextpage" });
-        }
-    });
+	port.onMessage.addListener(async function ({ message }) {
+		switch (message) {
+			case "hello": {
+				port.postMessage({
+					message: "sentHello",
+					data: { message: "Hello World from background!" }
+				});
+				break;
+			}
+			case "getScrapingStatus": {
+				const status = await getObjectFromLocalStorage("status");
+				port.postMessage({
+					message: "sentScrapingStatus",
+					data: { status }
+				});
+				break;
+			}
+			case "startscrap": {
+				const status = "start";
+				await saveObjectInLocalStorage(status);
+				break;
+			}
+			case "finish": {
+				port.postMessage({ message: "nextpage" });
+				break;
+			}
+			default:
+		}
+	});
 });

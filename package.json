@@ -1,0 +1,24 @@
+{
+	"name": "reto-bootcamp-marzo",
+	"version": "1.0.0",
+	"description": "* Vamos a scrapear todos los avisos del día\r * Los vamos almacenar en un localstorage\r * Y vamos a generar indicadores de los avisos agrupados por ciudad y rango salarial",
+	"main": "background.js",
+	"scripts": {
+		"lint": "npx eslint --ignore-path .gitignore . --ext .js",
+		"lint:fix": "npm run lint -- --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gopoma/reto-bootcamp-marzo.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/gopoma/reto-bootcamp-marzo/issues"
+	},
+	"homepage": "https://github.com/gopoma/reto-bootcamp-marzo#readme",
+	"devDependencies": {
+		"eslint": "^8.37.0"
+	}
+}
