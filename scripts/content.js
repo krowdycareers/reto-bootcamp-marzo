@@ -1,11 +1,11 @@
-const button = document.querySelectorAll('[class^="pagerBlock"]');
+const nextButton = document.querySelector('[class^="pagerBlock"]');
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const page = urlParams.get("page");
-console.log(page);
+console.log(button);
 
-button[0].addEventListener("click", () => {
-  if (!page) return window.location.search = `?page=2`
+nextButton.addEventListener("click", () => {
+  if (!urlParams.get("page")) return window.location.search = `?page=2`
   window.location.search = `?page=${parseInt(page) + 1}`;
 });
 
@@ -15,13 +15,14 @@ const jobCards = document.querySelectorAll('div[id^="jobcard"]');
 const jobs = Array.from(jobCards).map((card) => {
   const title = card.querySelector(
     ".text-0-2-82.subheading-0-2-86.highEmphasis-0-2-103.job-0-2-557.longWord-0-2-576"
-  ).textContent;
-  const salary = card.querySelector("span[class*=salary]").textContent;
-  const city = card.querySelector("p[class*=zonesLinks]").textContent;
-
-  return { title, salary, city };
-});
-
+    ).textContent;
+    const salary = card.querySelector("span[class*=salary]").textContent;
+    const city = card.querySelector("p[class*=zonesLinks]").textContent;
+    
+    return { title, salary, city };
+  });
+  
+  console.log(jobCards);
 
 chrome.storage.local.get(["jobs"], (result) => {
   let storedJobs = result.jobs || [];
