@@ -25,13 +25,6 @@ const getObjectFromLocalStorage = async function (key) {
 chrome.runtime.onConnect.addListener(function (port) {
 	port.onMessage.addListener(async function ({ message }) {
 		switch (message) {
-			case "hello": {
-				port.postMessage({
-					message: "sentHello",
-					data: { message: "Hello World from background!" }
-				});
-				break;
-			}
 			case "getScrapingStatus": {
 				const status = await getObjectFromLocalStorage("status");
 				port.postMessage({

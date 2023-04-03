@@ -1,5 +1,5 @@
 const btnScripting = document.getElementById("btncomunicacion");
-const btnScriptingBackground = document.getElementById("btncomunicacionbckg");
+const btnGetScrapingStatus = document.getElementById("btngetscrapingstatus");
 const results = document.getElementById("results");
 
 btnScripting.addEventListener("click", async () => {
@@ -20,16 +20,10 @@ btnScripting.addEventListener("click", async () => {
 	});
 });
 
-let port = chrome.runtime.connect({ name: "popup-background" });
-port.postMessage({ message: "hello" });
-port.postMessage({ message: "getScrapingStatus" });
+
+const port = chrome.runtime.connect({ name: "popup-background" });
 port.onMessage.addListener(function ({ message, data }) {
 	switch (message) {
-		case "sentHello": {
-			const { message } = data;
-			alert(message);
-			break;
-		}
 		case "sentScrapingStatus": {
 			const { status } = data;
 			console.log({ status });
@@ -37,4 +31,8 @@ port.onMessage.addListener(function ({ message, data }) {
 		}
 		default:
 	}
+});
+
+btnGetScrapingStatus.addEventListener("click", () => {
+	port.postMessage({ message: "getScrapingStatus" });
 });
