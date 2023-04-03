@@ -1,6 +1,6 @@
 const btnScripting = document.getElementById("btncomunicacion");
 const btnScriptingBackground = document.getElementById("btncomunicacionbckg");
-const pMensaje = document.getElementById("mensajes");
+const results = document.getElementById("results");
 
 btnScripting.addEventListener("click", async () => {
     const [tab] = await chrome.tabs.query({
