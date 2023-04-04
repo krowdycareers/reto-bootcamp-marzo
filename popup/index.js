@@ -1,6 +1,7 @@
 const btnScripting = document.getElementById("btncomunicacion");
 const btnGetScrapingStatus = document.getElementById("btngetscrapingstatus");
-const btnGetAllJobs = document.getElementById("getalljobs");
+const btnGetAllJobs = document.getElementById("btngetalljobs");
+const btnShutdown = document.getElementById("btnshutdown");
 const results = document.getElementById("results");
 
 
@@ -46,4 +47,8 @@ btnGetScrapingStatus.addEventListener("click", () => {
 
 btnGetAllJobs.addEventListener("click", () => {
 	portBackground.postMessage({ message: "getAllJobs" });
+});
+
+btnShutdown.addEventListener("click", () => {
+	portBackground.postMessage({ message: "shutdown" });
 });

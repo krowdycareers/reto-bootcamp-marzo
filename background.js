@@ -44,6 +44,10 @@ chrome.runtime.onConnect.addListener(function (port) {
 				const jobs = await getObjectFromLocalStorage("jobs") || [];
 				const jobsToStore = [...jobs, ...scrapedJobs];
 				await saveObjectInLocalStorage({ jobs: jobsToStore });
+
+				port.postMessage({
+					message: "finishPartialScrap"
+				});
 				break;
 			}
 			case "getAllJobs": {
@@ -52,6 +56,11 @@ chrome.runtime.onConnect.addListener(function (port) {
 					message: "sentAllJobs",
 					data: { jobs }
 				});
+				break;
+			}
+			case "shutdown": {
+				await saveObjectInLocalStorage({ status: null });
+				await saveObjectInLocalStorage({ jobs: [] });
 				break;
 			}
 			case "finish": {

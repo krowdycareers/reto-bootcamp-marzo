@@ -39,22 +39,36 @@ function getJobInformation() {
 	return jobs;
 }
 
+const isElementLoaded = async (selector) => {
+	while(document.querySelector(selector) === null) {
+		await new Promise((resolve) => requestAnimationFrame(resolve));
+	}
+	return document.querySelector(selector);
+};
+
 // Connect to background
 const portBackground = chrome.runtime.connect({ name: "content-background" });
+
+async function scrap() {
+	await isElementLoaded("[id*='jobcard-']");
+	const scrapedJobs = getJobInformation();
+	portBackground.postMessage({
+		message: "storeScrapedJobs",
+		data: { scrapedJobs }
+	});
+}
 
 portBackground.onMessage.addListener(async ({ message }) => {
 	switch(message) {
 		case "scrap": {
-			const scrapedJobs = getJobInformation();
-			portBackground.postMessage({
-				message: "storeScrapedJobs",
-				data: { scrapedJobs }
-			});
+			await scrap();
 			break;
 		}
-		case "nextpage": {
+		case "finishPartialScrap": {
+			await isElementLoaded("[class*=next-]");
 			const nextPageButton = document.querySelector("[class*=next-]");
 			nextPageButton.click();
+			await scrap();
 			break;
 		}
 		default:
