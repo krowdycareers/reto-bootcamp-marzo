@@ -1,4 +1,5 @@
 console.log("Ejecutando el content script 2.0");
+let portEmergent = null;
 
 function getJobInformation() {
 	const elemCardJobs = [...document.querySelectorAll("[id*='jobcard-']")];
@@ -52,9 +53,19 @@ const portBackground = chrome.runtime.connect({ name: "content-background" });
 async function scrap() {
 	await isElementLoaded("[id*='jobcard-']");
 	const scrapedJobs = getJobInformation();
+
+	const [{ fecha }] = scrapedJobs;
+
+	if(fecha.replace("\nRecomendada", "").trim() !== "Hoy") {
+		return;
+	}
+
 	portBackground.postMessage({
 		message: "storeScrapedJobs",
 		data: { scrapedJobs }
+	});
+	portEmergent.postMessage({
+		message: "refreshJobsTable"
 	});
 }
 
@@ -76,6 +87,8 @@ portBackground.onMessage.addListener(async ({ message }) => {
 });
 
 chrome.runtime.onConnect.addListener(function (port) {
+	portEmergent = port;
+
 	port.onMessage.addListener(function ({ message }) {
 		switch(message) {
 			case "scrapJobs": {

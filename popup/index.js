@@ -4,26 +4,6 @@ const btnGetAllJobs = document.getElementById("btngetalljobs");
 const btnShutdown = document.getElementById("btnshutdown");
 const results = document.getElementById("results");
 
-
-btnScripting.addEventListener("click", async () => {
-	const [tab] = await chrome.tabs.query({
-		active: true,
-		currentWindow: true
-	});
-	const portContentScript = chrome.tabs.connect(tab.id, { name: "popup" });
-	portContentScript.postMessage({ message: "scrapJobs" });
-	portContentScript.onMessage.addListener(({ message, data }) => {
-		switch (message) {
-			case "ok": {
-				results.textContent = JSON.stringify(data, null, 2);
-				break;
-			}
-			default:
-		}
-	});
-});
-
-
 const portBackground = chrome.runtime.connect({ name: "popup-background" });
 portBackground.onMessage.addListener(function ({ message, data }) {
 	switch (message) {
@@ -34,11 +14,31 @@ portBackground.onMessage.addListener(function ({ message, data }) {
 		}
 		case "sentAllJobs": {
 			const { jobs } = data;
-			console.log(jobs);
+
+			results.textContent = JSON.stringify(jobs, null, 2);
+
 			break;
 		}
 		default:
 	}
+});
+
+btnScripting.addEventListener("click", async () => {
+	const [tab] = await chrome.tabs.query({
+		active: true,
+		currentWindow: true
+	});
+	const portContentScript = chrome.tabs.connect(tab.id, { name: "popup" });
+	portContentScript.postMessage({ message: "scrapJobs" });
+	portContentScript.onMessage.addListener(({ message }) => {
+		switch (message) {
+			case "refreshJobsTable": {
+				portBackground.postMessage({ message: "getAllJobs" });
+				break;
+			}
+			default:
+		}
+	});
 });
 
 btnGetScrapingStatus.addEventListener("click", () => {
