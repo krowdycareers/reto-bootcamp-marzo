@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        min-width: 400px;
+        text-align: center;
+        padding: 10px;
+      }
+      h1 {
+        font-weight: bold;
+        font-size: 20px;
+      }
+      p {
+        font-style: italic;
+        font-size: 14px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+        color: #fff;
+        background-color: #333;
+        font-size: 14px;
+      }
+      thead {
+        font-weight: bold;
+      }
+      th,
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #444;
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background-color: #555;
+      }
+
+      tr:hover {
+        background-color: #666;
+      }
+      .css-button-fully-rounded--black {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 20px;
+        border: 2px solid #212529;
+        background: #212529;
+      }
+      .css-button-fully-rounded--black:hover {
+        background: #fff;
+        color: #212529;
+      }
+      .css-button-fully-rounded--grey {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 20px;
+        border: 2px solid #495057;
+        background: #495057;
+      }
+      .css-button-fully-rounded--grey:hover {
+        background: #fff;
+        color: #495057;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scrap Jobs</h1>
+    <button
+      id="btnScrap"
+      class="css-button css-button-fully-rounded css-button-fully-rounded--grey"
+    >
+      Scrap Now
+    </button>
+    <button
+      id="btnStop"
+      class="css-button css-button-fully-rounded css-button-fully-rounded--black"
+    >
+      Sew Results
+    </button>
+    <p id="message"></p>
+    <table id="tableResults"></table>
+    <button
+      id="btnClear"
+      class="css-button css-button-fully-rounded css-button-fully-rounded--grey"
+    >
+      Clear Data
+    </button>
+    <script src="./index.js"></script>
+  </body>
+</html>
