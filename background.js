@@ -23,7 +23,7 @@ const getObjectFromLocalStorage = async function (key) {
 };
 
 chrome.runtime.onConnect.addListener(function (port) {
-	port.onMessage.addListener(async function ({ message }) {
+	port.onMessage.addListener(async function ({ message, data }) {
 		switch (message) {
 			case "getScrapingStatus": {
 				const status = await getObjectFromLocalStorage("status");
@@ -34,8 +34,24 @@ chrome.runtime.onConnect.addListener(function (port) {
 				break;
 			}
 			case "startscrap": {
-				const status = "start";
+				const status = {status: "start"};
 				await saveObjectInLocalStorage(status);
+				port.postMessage({ message: "scrap" });
+				break;
+			}
+			case "storeScrapedJobs": {
+				const { scrapedJobs } = data;
+				const jobs = await getObjectFromLocalStorage("jobs") || [];
+				const jobsToStore = [...jobs, ...scrapedJobs];
+				await saveObjectInLocalStorage({ jobs: jobsToStore });
+				break;
+			}
+			case "getAllJobs": {
+				const jobs = await getObjectFromLocalStorage("jobs") || [];
+				port.postMessage({
+					message: "sentAllJobs",
+					data: { jobs }
+				});
 				break;
 			}
 			case "finish": {

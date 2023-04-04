@@ -43,21 +43,37 @@ function getJobInformation() {
 const portBackground = chrome.runtime.connect({ name: "content-background" });
 
 portBackground.onMessage.addListener(async ({ message }) => {
-	if (message === "nextpage") {
-		const nextPageButton = document.querySelector("[class*=next-]");
-		nextPageButton.click();
+	switch(message) {
+		case "scrap": {
+			const scrapedJobs = getJobInformation();
+			portBackground.postMessage({
+				message: "storeScrapedJobs",
+				data: { scrapedJobs }
+			});
+			break;
+		}
+		case "nextpage": {
+			const nextPageButton = document.querySelector("[class*=next-]");
+			nextPageButton.click();
+			break;
+		}
+		default:
 	}
 });
 
 chrome.runtime.onConnect.addListener(function (port) {
 	port.onMessage.addListener(function ({ message }) {
-		if (message === "getJobs") {
-			const jobs = getJobInformation();
-			port.postMessage({
-				message: "ok",
-				data: jobs
-			});
-			portBackground.postMessage({ message: "finish" });
+		switch(message) {
+			case "scrapJobs": {
+				portBackground.postMessage({ message: "startscrap" });
+				const jobs = getJobInformation();
+				port.postMessage({
+					message: "ok",
+					data: jobs
+				});
+				break;
+			}
+			default:
 		}
 	});
 });
