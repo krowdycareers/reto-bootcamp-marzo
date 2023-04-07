@@ -1,0 +1,41 @@
+body {
+    height: 32em;
+    width: 25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+table {
+    border-bottom: black solid;
+}
+
+table:last-child {
+    border-bottom: none;
+}
+
+td {
+    text-align: center;
+    border-top: grey solid 1px;
+}
+
+button {
+    margin-inline: 0.5em;
+    border-radius: 1em;
+    width: 10em;
+}
+
+#btnstart {
+    border-color: green;
+}
+
+#btnclear {
+    border-color: red;
+}
+
+#container {
+    border: black solid 1px;
+    border-radius: 0.5em;
+    margin-block: 1em;
+}
