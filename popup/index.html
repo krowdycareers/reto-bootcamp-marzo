@@ -6,12 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scrapper</title>
 </head>
-<body style="height: 500px;" >
+<body style="height: 500px; width: 300px;" >
     <p>Hola</p>
-    <button id="btncomunicacion">Enviar hola al contexto de la página</button>
-    <button id="btncomunicacionbckg">Enviar hola al background</button>
+    <button id="btnPaginar">Obtener estadísticas del día</button>
+    <button id="btnStop">Parar</button>
 
-    <p id="mensajes">Esperando mensaje...</p>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Salary Range</th>
+          <th>Number of Jobs</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
 
     <script src="./index.js"></script>
   </body>

@@ -1,9 +1,9 @@
 {
   "name": "scraping-occ",
-  "description": "Obtener avisos",
+  "description": "Obtener avisos 1",
   "manifest_version": 3,
   "version": "1.0",
-  "permissions":["activeTab","scripting", "tabs", "storage"],
+  "permissions":["activeTab","scripting", "tabs", "storage", "webNavigation"],
   "background": {
     "service_worker": "background.js"
   },
