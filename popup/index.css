@@ -1,0 +1,53 @@
+body {
+  width: 400px;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* List styles */
+.list {
+  list-style: none;
+}
+
+/* Loading styles */
+.loading {
+  font-size: 1rem;
+  margin-top: 2rem;
+  display: none;
+}
+
+/* Button styles */
+.button {
+  border: 0px;
+  border-radius: 5px;
+  padding: 10px 20px;
+
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+  background-color: #0069d9;
+  color: #ffffff;
+}
+
+.button:focus {
+  background-color: #0069d9;
+  color: #ffffff;
+}
