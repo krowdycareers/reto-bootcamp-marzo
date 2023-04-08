@@ -89,18 +89,34 @@ chrome.runtime.onConnect.addListener(function (port) {
             return;
         }
 
-        /* Este bloque de código gestiona el mensaje "next" recibido de la extensión. Recupera el
-        número de página actual de la URL usando la función `getPage()`, guarda los datos recibidos en el array
-        el array `jobsFiltrados` usando la función `saveData()`, actualiza la URL a la siguiente página
-        incrementando el número de página, y envía un mensaje al script de contenido para que comience a escrapear
-        la siguiente página. */
+        
+        /* Este bloque de código gestiona el mensaje "next" recibido de la extensión. Primero llama a la función
+        la función `getPage(sender)` para obtener el número de página actual de la URL de la pestaña
+        del remitente. A continuación, registra los "datos" recibidos del remitente. A continuación, llama a la función
+        `saveData(data)` para guardar los datos recibidos en el array `jobsFiltrados`. */
         if (message === "next") {
             const page = getPage(sender);
             console.log(data)
             saveData(data)
             console.log(sender);
-            await chrome.tabs.update(sender.sender.tab.id,{url:"https://www.occ.com.mx/empleos/en-ciudad-de-mexico/?page="+(parseInt(page)+1),});
-            return;
+            /* Este bloque de código comprueba si la variable `page` es `undefined` o `null`. Si lo es
+            significa que la URL actual de la pestaña no tiene un parámetro `page` en la cadena de consulta,
+            lo que indica que la página actual es la primera página del listado de empleos. En
+            caso, el código actualiza la URL de la pestaña a la segunda página de las ofertas de empleo
+            (`https://www.occ.com.mx/empleos/en-ciudad-de-mexico/?page=2`) utilizando
+            chrome.tabs.update()`. La sentencia `return` se utiliza para salir de la función y evitar
+            la ejecución del código. */
+            if(page === undefined || page === null) {
+                await chrome.tabs.update(sender.sender.tab.id,{url:"https://www.occ.com.mx/empleos/en-ciudad-de-mexico/?page=2",});
+                return;
+            }/* Este bloque de código se ejecuta cuando el mensaje recibido de la extensión es "next". En
+            primero llama a la función `getPage(sender)` para obtener el número de página actual de la URL
+            de la pestaña del remitente. A continuación, guarda los "datos" recibidos del remitente. A continuación, llama a
+            la función `saveData(data)` para guardar los datos recibidos en el array `jobsFiltrados`. */
+            else{
+                await chrome.tabs.update(sender.sender.tab.id,{url:"https://www.occ.com.mx/empleos/en-ciudad-de-mexico/?page="+(parseInt(page)+1),});
+                return;
+            }
         }
 
         /* Este bloque de código comprueba si el mensaje recibido de la extensión es "online" y si la variable
