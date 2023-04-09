@@ -3,14 +3,14 @@ const pMensaje = document.getElementById("mensajes");
 const finalData = document.querySelector(".popup-body");
 
 btnScripting.addEventListener("click", async () => {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  let port = chrome.tabs.connect(tab.id, { name: "popup" });
-  port.postMessage({ message: "getJobs" });
+  // const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let port = chrome.runtime.connect({ name: "popup-background" });
+  port.postMessage({ message: "start" });
   port.onMessage.addListener(({ message, data }) => {
     if (message == "ok"){
       const showData = [...data]
       // console.log(showData)
-      pMensaje.innerText = "Datos recuperados";
+      pMensaje.innerText = "Datos recuperados:";
       showData.forEach(element => {
         card = document.createElement("div");
         card.classList.add("card-show")
@@ -36,7 +36,7 @@ btnScripting.addEventListener("click", async () => {
         // card.appendChild(locationText);
         finalData.appendChild(card);
       });
-    } 
+    }
     // pMensaje.innerText = JSON.stringify(data, null, 2);
   });
 });

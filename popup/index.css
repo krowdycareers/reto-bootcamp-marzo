@@ -1,19 +1,27 @@
 .popup-body{
     width: 400px;
     min-height: 500px;
-    max-height: 900px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .title{
     text-align: center;
     margin-bottom: 30px;
 }
+.text-label{
+    padding-top: 10px;
+}
 .card-show{
     margin: 10px;
     border-radius: 5px;
     border: solid 1px #000;
+    padding: 5px;
 }
 .salary-box{
-    padding: 0 5px;
+    padding: 5px 10px;
     display: flex;
     justify-content:space-between;
+}
+.salary-box > p{
+    margin-bottom: 0;
 }

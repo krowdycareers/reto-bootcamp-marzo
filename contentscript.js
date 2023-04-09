@@ -48,7 +48,7 @@ function getJobInformation() {
     const numSalary = [];
     salaries.forEach(elem =>{
       let cont = auxJobs.filter(_salary => _salary == elem).length;
-      numSalary.push({sal: elem, num:cont});
+      if(cont != 0) numSalary.push({sal: elem, num:cont});
     })
     jobsForCity.push({title:_city,data:numSalary})
   })
@@ -56,22 +56,52 @@ function getJobInformation() {
   return jobsForCity;
 }
 
+function clickNextButton(){
+  const nextPageBtn = document.querySelector("[class*=next-]");
+  nextPageBtn.click();
+}
+
 //Connect to background
 const portBackground = chrome.runtime.connect({ name: "content-background" });
 
+function waitFor (ms){
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+portBackground.postMessage({ message: "online" });
 portBackground.onMessage.addListener(async ({ message }) => {
-  if ((message = "nextpage")) {
-    const nextPageButton = document.querySelector("[class*=next-]");
-    nextPageButton.click();
+  if ((message = "scrap")) {
+    waitFor (3000);
+    const jobs = getJobInformation();
+    const nextPageButton = document.querySelector("[class*=next-][class*=disabled-]");
+    console.log("btn11: ",nextPageButton)
+    // const message = nextPageButton? "next" : "ok";
+    console.log("btn1: ",message)
+    if(nextPageButton){
+      console.log("ok")
+      portBackground.postMessage({ message: "ok", data: jobs });
+    } else {
+      console.log("next")
+      portBackground.postMessage({ message: "next", data: null});
+    }
   }
 });
 
 chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(function ({ message }) {
-    if (message === "getJobs") {
+    if (message === "scrap") {
       const jobs = getJobInformation();
-      port.postMessage({ message: "ok", data: jobs });
-      portBackground.postMessage({ message: "finish" });
-    }
-  });
+      const nextPageButton = document.querySelector("[class*=next-][class*=disabled-]");
+      console.log("btn22: ",nextPageButton)
+      if(nextPageButton){
+        console.log("ok")
+        port.postMessage({ message: "ok", data: jobs });
+      } else {
+        console.log("next")
+        portBackground.postMessage({ message: "next", data: null});
+      }
+      }
+    });
 });
