@@ -1,0 +1,14 @@
+body {
+  width: 550px;
+  height: 600px;
+}
+
+.text-bg-dark,
+.list-group-item {
+  background-color: #363d4d !important;
+  color: white !important;
+}
+
+.list-resume {
+  list-style: none;
+}

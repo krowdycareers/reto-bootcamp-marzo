@@ -1,0 +1,23 @@
+{
+  "name": "OCC Mundial Scrapping",
+  "description": "Obtener la información sobre avisos de trabajo en OCC Mundial y consolidarla en un resumen",
+  "manifest_version": 3,
+  "version": "0.1.0",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.occ.com.mx/empleos/*"],
+      "js": ["./contentscript.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "./popup/index.html"
+  },
+  "icons": {
+    "32": "./images/icon.png",
+    "128": "./images/icon.png"
+  }
+}
