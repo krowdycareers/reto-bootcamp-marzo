@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>OCC Jobs Extension</title>
+  </head>
+  <body class="bg-dark">
+    <div class="row card text-bg-dark m-2 shadow-lg rounded-5">
+      <div class="col p-4">
+        <div class="d-flex flex-row justify-content-between">
+          <span class="fs-4 fw-bold">DASHBOARD</span>
+          <div class="">
+            <button id="btncomunicacion" class="btn btn-outline-light mx-auto">
+              Resumen del día
+            </button>
+          </div>
+        </div>
+        <div id="today" class="text-center fs-1 fw-bold"></div>
+        <div class="d-flex flex-column py-3">
+          <div id="loading" class="spinner-grow mx-auto d-none" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="card border-0 text-bg-dark w-100">
+          <ul class="list-group list-group-flush" id="listResume"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
