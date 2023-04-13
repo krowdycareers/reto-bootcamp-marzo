@@ -3,17 +3,21 @@ const pMensaje = document.getElementById("mensajes");
 const finalData = document.querySelector(".popup-body");
 
 btnScripting.addEventListener("click", async () => {
-  // const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   let port = chrome.runtime.connect({ name: "popup-background" });
   port.postMessage({ message: "start" });
-  port.onMessage.addListener(({ message, data }) => {
-    if (message == "ok"){
+});
+
+chrome.runtime.onConnect.addListener(function (port) {
+  port.onMessage.addListener(async function ({ message, data}) {
+    console.log("aqui index", message, data); 
+    if (message == "show"){
+      // port.postMessage({ message: "finish" });
       const showData = [...data]
       // console.log(showData)
       pMensaje.innerText = "Datos recuperados:";
       showData.forEach(element => {
         card = document.createElement("div");
-        card.classList.add("card-show")
+        card.classList.add("card-show");
         titleText = document.createElement("h3");
         salaryText = document.createElement("div");
         // locationText = document.createElement("p");
@@ -21,7 +25,7 @@ btnScripting.addEventListener("click", async () => {
         // salaryText.textContent = JSON.stringify(element?.data, null, 2);
         element?.data.forEach(info => {
           salaryAux = document.createElement("div");
-          salaryAux.classList.add("salary-box")
+          salaryAux.classList.add("salary-box");
           salarieText= document.createElement("p");
           numText= document.createElement("p");
           salarieText.innerText = info?.sal;
@@ -37,14 +41,5 @@ btnScripting.addEventListener("click", async () => {
         finalData.appendChild(card);
       });
     }
-    // pMensaje.innerText = JSON.stringify(data, null, 2);
   });
 });
-
-// btnScriptingBackground.addEventListener("click", async () => {
-//   var port = chrome.runtime.connect({ name: "popup-background" });
-//   port.postMessage({ message: "Hola BD" });
-//   port.onMessage.addListener(function ({ message }) {
-//     alert(message);
-//   });
-// });

@@ -1,7 +1,7 @@
 console.log("Ejecutando el content script 2.0");
-function getJobInformation() {
-  const elemCardJobs = [...document.querySelectorAll('[id*="jobcard-"]')];
-  const jobs = elemCardJobs.map((cardJob) => {
+function colectData(){
+  let tempJobs = [...document.querySelectorAll('[id*="jobcard-"]')];
+  const jobs = tempJobs.map((cardJob) => {
     const [
       { href: url },
       {
@@ -29,18 +29,19 @@ function getJobInformation() {
     salarioFinal = salarioFinal === undefined? "No mostrado": salarioFinal;
     return { url, fecha, title, salarioFinal, beneficios, empresa, ciudad };
   });
-
+  return jobs;
+}
+function getJobInformation(jobs) {
+  // const elemCardJobs = [...document.querySelectorAll('[id*="jobcard-"]')];
   const justCities = jobs.map(element =>{ return element?.ciudad});
   const cities = justCities.filter((item,index)=>{
     return justCities.indexOf(item) === index;
   });
-  console.log(cities)
 
   const justSalary = jobs.map(element => {return element?.salarioFinal})
   const salaries = justSalary.filter((item,index)=>{
     return justSalary.indexOf(item) === index;
   });
-  console.log(salaries);
 
   const jobsForCity = [];
   cities.forEach(_city =>{
@@ -71,37 +72,37 @@ function waitFor (ms){
 }
 
 portBackground.postMessage({ message: "online" });
-portBackground.onMessage.addListener(async ({ message }) => {
+portBackground.onMessage.addListener(async ({ message, jobsData }) => {
   if ((message = "scrap")) {
-    waitFor (3000);
-    const jobs = getJobInformation();
+    waitFor (4000);
+    let _auxJobs = colectData();
     const nextPageButton = document.querySelector("[class*=next-][class*=disabled-]");
-    console.log("btn11: ",nextPageButton)
-    // const message = nextPageButton? "next" : "ok";
-    console.log("btn1: ",message)
     if(nextPageButton){
-      console.log("ok")
-      portBackground.postMessage({ message: "ok", data: jobs });
+      console.log("ok");
+      portBackground.postMessage({ message: "ok", jobsData:_auxJobs});
     } else {
-      console.log("next")
-      portBackground.postMessage({ message: "next", data: null});
+      console.log("next");
+      portBackground.postMessage({ message: "next", jobsData: _auxJobs});
     }
   }
 });
 
 chrome.runtime.onConnect.addListener(function (port) {
-  port.onMessage.addListener(function ({ message }) {
+  port.onMessage.addListener(function ({ message, jobsData }) {
     if (message === "scrap") {
-      const jobs = getJobInformation();
+      let _auxJobs = colectData();
       const nextPageButton = document.querySelector("[class*=next-][class*=disabled-]");
-      console.log("btn22: ",nextPageButton)
       if(nextPageButton){
-        console.log("ok")
-        port.postMessage({ message: "ok", data: jobs });
+        console.log("ok");
+        portBackground.postMessage({ message: "ok", jobsData:_auxJobs});
       } else {
-        console.log("next")
-        portBackground.postMessage({ message: "next", data: null});
+        console.log("next");
+        portBackground.postMessage({ message: "next", jobsData:_auxJobs});
       }
+      }
+      if(message === "ok"){
+        const jobs = getJobInformation(jobsData);
+        portBackground.postMessage({ message: "show", jobsData: jobs});
       }
     });
 });
