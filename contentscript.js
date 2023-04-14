@@ -1,4 +1,4 @@
-console.log("Ejecutando el content script 2.0");
+console.log("Ejecutando el content script 2.5");
 let portEmergent = null;
 
 function getJobInformation() {
@@ -50,6 +50,8 @@ const isElementLoaded = async (selector) => {
 // Connect to background
 const portBackground = chrome.runtime.connect({ name: "content-background" });
 
+let isPopupOpen = true;
+
 async function scrap() {
 	await isElementLoaded("[id*='jobcard-']");
 	const scrapedJobs = getJobInformation();
@@ -64,12 +66,17 @@ async function scrap() {
 		message: "storeScrapedJobs",
 		data: { scrapedJobs }
 	});
-	portEmergent.postMessage({
+
+	portBackground.postMessage({
+		message: "getIsPopupOpen"
+	});
+
+	isPopupOpen && portEmergent.postMessage({
 		message: "refreshJobsTable"
 	});
 }
 
-portBackground.onMessage.addListener(async ({ message }) => {
+portBackground.onMessage.addListener(async ({ message, data }) => {
 	switch(message) {
 		case "scrap": {
 			await scrap();
@@ -80,6 +87,10 @@ portBackground.onMessage.addListener(async ({ message }) => {
 			const nextPageButton = document.querySelector("[class*=next-]");
 			nextPageButton.click();
 			await scrap();
+			break;
+		}
+		case "sentIsPopupOpen": {
+			isPopupOpen = data.isPopupOpen;
 			break;
 		}
 		default:

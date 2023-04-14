@@ -22,9 +22,36 @@ const getObjectFromLocalStorage = async function (key) {
 	});
 };
 
-chrome.runtime.onConnect.addListener(function (port) {
+chrome.runtime.onConnect.addListener(async function (port) {
+	const onConnect = async () => {
+		const isPopupOpen = {isPopupOpen: true};
+		await saveObjectInLocalStorage(isPopupOpen);
+
+		const jobs = await getObjectFromLocalStorage("jobs") || [];
+		port.postMessage({
+			message: "sentAllJobs",
+			data: { jobs }
+		});
+	};
+	await onConnect();
+
+	if(port.name === "popup-background") {
+		port.onDisconnect.addListener(async () => {
+			const isPopupOpen = {isPopupOpen: false};
+			await saveObjectInLocalStorage(isPopupOpen);
+		});
+	}
+
 	port.onMessage.addListener(async function ({ message, data }) {
 		switch (message) {
+			case "getIsPopupOpen": {
+				const isPopupOpen = await getObjectFromLocalStorage("isPopupOpen");
+				port.postMessage({
+					message: "sentIsPopupOpen",
+					data: { isPopupOpen }
+				});
+				break;
+			}
 			case "getScrapingStatus": {
 				const status = await getObjectFromLocalStorage("status");
 				port.postMessage({
