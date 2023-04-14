@@ -14,9 +14,7 @@ portBackground.onMessage.addListener(function ({ message, data }) {
 		}
 		case "sentAllJobs": {
 			const { jobs } = data;
-
 			results.textContent = JSON.stringify(jobs, null, 2);
-
 			break;
 		}
 		default:
