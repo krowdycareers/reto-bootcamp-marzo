@@ -1,0 +1,22 @@
+{
+	"name": "reto-scraping-occ-bootcamp-krowdycareers",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"build-extension": "pnpm build && cp ./src/manifest.json dist/ && cp -r ./src/assets/* dist/assets",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"preact": "^10.13.1"
+	},
+	"devDependencies": {
+		"@preact/preset-vite": "^2.5.0",
+		"@types/node": "^20.1.2",
+		"sass": "^1.62.1",
+		"typescript": "^5.0.2",
+		"vite": "^4.3.2"
+	}
+}

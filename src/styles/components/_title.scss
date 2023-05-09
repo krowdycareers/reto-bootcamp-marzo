@@ -1,0 +1,17 @@
+.title {
+	font-size: 2rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	background: linear-gradient(
+		to right,
+		rgba(255, 65, 108, 0.8),
+		rgba(255, 75, 43, 0.8)
+	);
+	box-shadow: 0px -7px rgba(255, 65, 108, 0.5);
+	-webkit-backdrop-filter: blur(20px);
+	backdrop-filter: blur(250px);
+	border-radius: 10px;
+	text-align: center;
+	padding: 20px;
+	margin: 20px auto;
+}
