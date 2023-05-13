@@ -1,0 +1,17 @@
+.custom__scroll {
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $blueColorDarken;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: linear-gradient(
+			180deg,
+			$blueColorDarken,
+			$blueColorLighten
+		);
+	}
+}
