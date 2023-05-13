@@ -1,18 +1,26 @@
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
-import path from 'path';
+import { resolve } from 'path';
+import { crx } from '@crxjs/vite-plugin';
+// import manifest from './manifest.json';
+import { manifest } from './manifest.config';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [preact()],
+	root: resolve(__dirname),
+	plugins: [preact(), crx({ manifest })],
 	base: './',
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src/'),
-
-			routes: `${path.resolve(__dirname, './src/routes/')}`,
-
-			services: `${path.resolve(__dirname, './src/services/')}`,
+			'@': resolve(__dirname, './src/'),
+		},
+	},
+	build: {
+		outDir: 'dist',
+		assetsDir: 'assets',
+		rollupOptions: {
+			input: {
+				content: 'src/scripts/contentScript.ts',
+			},
 		},
 	},
 });
